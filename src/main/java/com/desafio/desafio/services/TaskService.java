@@ -18,9 +18,10 @@ public class TaskService {
     public Task createTask(Task task){
         long pendingTask = taskRepository.countByStatus("pending");
         if(pendingTask >= 10){
-            throw new RuntimeException("Você não pode ter mais de 10 tarefas pendentes");
+            throw new RuntimeException("Não é permitido criar mais de 10 tarefas pendentes.");
         }
         task.setCreationDate(LocalDateTime.now());
+        task.setStatus(Task.Status.PENDENTE);
         return taskRepository.save(task);
     }
 
@@ -37,7 +38,6 @@ public class TaskService {
 
         task.setTitle(taskDetails.getTitle());
         task.setDescription(taskDetails.getDescription());
-        task.setStatus(taskDetails.getStatus());
         return taskRepository.save(task);
     }
 
@@ -46,7 +46,7 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public Task changeTaskStatus(Long id, String status){
+    public Task changeTaskStatus(Long id, Task.Status status){
         Task task = taskRepository.findById(id).orElseThrow(()-> new RuntimeException("Tarefa não encontrada"));
         task.setStatus(status);
         return taskRepository.save(task);

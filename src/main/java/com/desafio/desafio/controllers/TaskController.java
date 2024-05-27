@@ -47,7 +47,7 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Task> changeTaskStatus(@PathVariable Long id, @RequestParam String status) {
+    public ResponseEntity<Task> changeTaskStatus(@PathVariable Long id, @RequestParam Task.Status status) {
         Task updatedTask = taskService.changeTaskStatus(id, status);
         return ResponseEntity.ok(updatedTask);
     }

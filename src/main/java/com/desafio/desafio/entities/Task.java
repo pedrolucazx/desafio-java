@@ -1,6 +1,9 @@
 package com.desafio.desafio.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,17 +15,17 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Size(min = 5)
     private String title;
 
-    @Column(nullable = false)
+    @NotBlank
     private String description;
 
-    @Column(nullable = false, updatable = false)
     private LocalDateTime creationDate;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public Long getId() {
         return id;
@@ -32,19 +35,19 @@ public class Task implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
+    public @NotBlank @Size(min = 5) String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NotBlank @Size(min = 5) String title) {
         this.title = title;
     }
 
-    public String getDescription() {
+    public @NotBlank String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotBlank String description) {
         this.description = description;
     }
 
@@ -56,11 +59,11 @@ public class Task implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -76,4 +79,10 @@ public class Task implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public enum Status {
+        PENDENTE,
+        CONCLUIDA
+    }
 }
+
