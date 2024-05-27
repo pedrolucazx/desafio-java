@@ -16,7 +16,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public Task createTask(Task task){
-        long pendingTask = taskRepository.countByStatus("pending");
+        long pendingTask = taskRepository.countByStatus(Task.Status.PENDENTE);
         if(pendingTask >= 10){
             throw new RuntimeException("Não é permitido criar mais de 10 tarefas pendentes.");
         }
